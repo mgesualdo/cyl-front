@@ -1,11 +1,18 @@
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import useForms, { useStore } from "./useForms"
 
 const useAuth = () => {
-  const [user, setUser] = useState()
+  const { setFields, cleanForm } = useForms({ form: "user" })
+  const user = useStore((state) => state.user)
   const router = useRouter()
+
   useEffect(() => {
-    if (!router.asPath.includes("login") && !user) {
+    if (router.asPath.includes("login") && !!user.email) {
+      router.push("/")
+      return
+    }
+    if (!router.asPath.includes("login") && !user?.email) {
       fetch(`${process.env.NEXT_PUBLIC_BASE_BACK_URL}/auth/login/verify`, {
         credentials: "include",
       }).then(async (rawRes) => {
@@ -14,13 +21,14 @@ const useAuth = () => {
           return
         } else {
           const res = await rawRes.json()
-          setUser(res.user)
+          console.log({ res })
+          setFields({ data: res.data })
         }
       })
     }
   }, [router.asPath])
 
-  return [user]
+  return { user, cleanForm }
 }
 
 export default useAuth

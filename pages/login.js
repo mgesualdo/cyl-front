@@ -1,56 +1,27 @@
-import React, { useState } from "react"
-import { useRouter } from "next/router"
 import Container from "../components/ui/Container"
-import Swal from "sweetalert2"
+import InputText from "../components/ui/inputs/InputText"
+import useFetch from "../hooks/useFetch"
+import { useStore } from "../hooks/useForms"
 
 const login = () => {
-  const [loginInfo, setLoginInfo] = useState({})
-  const router = useRouter()
+  const { post } = useFetch({ form: "auth" })
+
+  console.log("RENDER")
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { email, code } = loginInfo
 
-    console.log({ email, code })
     try {
-      const rawRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_BACK_URL}/auth/login`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: new Headers({
-            "Content-Type": "application/json",
-          }),
-          body: JSON.stringify({
-            email,
-            code,
-          }),
-        }
-      )
-      if (rawRes.status === 401) {
-        Swal.fire({
-          title: "UPS",
-          html: "Datos de inicio de sesión incorrectos",
-          icon: "info",
-          confirmButtonText: "Entendido 😣",
-        })
-      } else {
-        const res = await rawRes.json()
-        router.push("/")
-      }
+      await post({ path: `/auth/login`, validation: "login" })
     } catch (error) {
       console.log({ error })
     }
   }
 
   const handleGetCode = async (e) => {
-    const { email } = loginInfo
-    const rawRes = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_BACK_URL}/auth/login/code/${email}`
-    )
-  }
-
-  const handleInputChange = ({ target }) => {
-    setLoginInfo({ ...loginInfo, [target.name]: target.value })
+    const email = useStore.getState().auth.email
+    console.log({ email })
+    await post({ path: `/auth/login/code/${email}`, validation: "getCode" })
   }
 
   return (
@@ -62,20 +33,19 @@ const login = () => {
     >
       <h2 className="df fdc tac">Inicio de sesión</h2>
       <form className="df fdc aic jcc p5" onSubmit={handleSubmit}>
-        <input
+        <InputText
           type="email"
           name="email"
-          className="p5 mb10 onone bnone bs br3 bcgreylight w100p"
           placeholder="Correo electrónico"
-          onChange={handleInputChange}
+          form="auth"
         />
-        <input
+        <InputText
           type="text"
           name="code"
-          className="p5 bnone onone bs br3 bcgreylight w100p"
           placeholder="Código de ingreso"
-          onChange={handleInputChange}
+          form="auth"
         />
+
         <div className="df aic mt20">
           <button className="p5 bnone bcblue cwhite br3 cursorp mr5">
             Ingresar
