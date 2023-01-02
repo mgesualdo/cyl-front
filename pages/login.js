@@ -4,7 +4,7 @@ import useFetch from "../hooks/useFetch"
 import { useStore } from "../hooks/useForms"
 
 const login = () => {
-  const { post } = useFetch({ form: "auth" })
+  const { fetcher } = useFetch({ form: "auth" })
 
   console.log("RENDER")
 
@@ -12,7 +12,7 @@ const login = () => {
     e.preventDefault()
 
     try {
-      await post({ path: `/auth/login`, validation: "login" })
+      await fetcher({ path: `/auth/login`, validation: "login" })
     } catch (error) {
       console.log({ error })
     }
@@ -21,7 +21,7 @@ const login = () => {
   const handleGetCode = async (e) => {
     const email = useStore.getState().auth.email
     console.log({ email })
-    await post({ path: `/auth/login/code/${email}`, validation: "getCode" })
+    await fetcher({ path: `/auth/login/code/${email}`, validation: "getCode" })
   }
 
   return (

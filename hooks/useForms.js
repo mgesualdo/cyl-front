@@ -1,15 +1,20 @@
 import create from "zustand"
 import { devtools } from "zustand/middleware"
-import { isInArray, toggleItem } from "../helpers/arrays"
+import { toggleItem } from "../helpers/arrays"
+
+const INITIAL_STATES = {
+  person: {
+    type: "",
+    areas: [],
+  },
+}
 
 export const useStore = create(
   devtools(
     (set) => ({
       auth: { email: "", code: "" },
-      person: {
-        type: "",
-        areas: [],
-      },
+      modal: { show: "" },
+      person: INITIAL_STATES["person"],
       user: {},
       set: ({ data, form }) => {
         Object.keys(data).forEach((fieldName) => {
@@ -42,7 +47,7 @@ export const useStore = create(
         set(
           (state) => ({
             ...state,
-            [form]: {},
+            [form]: INITIAL_STATES[form],
           }),
           false,
           `clean-${form}`
@@ -59,13 +64,15 @@ const useForms = ({ form }) => {
   const setArray = useStore((state) => state.setArray)
 
   const setFields = ({ data }) => set({ data, form })
+  const showModal = (modal) =>
+    set({ data: { show: form || modal }, form: "modal" })
 
   const setArrayField = ({ item, field, toggleField }) =>
     setArray({ item, field, toggleField, form })
 
   const cleanForm = () => clean({ form })
 
-  return { setFields, setArrayField, cleanForm }
+  return { setFields, setArrayField, showModal, cleanForm }
 }
 
 export default useForms

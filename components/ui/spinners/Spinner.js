@@ -1,10 +1,13 @@
-import React from "react"
-
-const Spinner = ({ size = "1rem", width = "auto", height = "auto" }) => {
+const Spinner = ({
+  size = "1rem",
+  width = "auto",
+  height = "auto",
+  color = "--blue",
+}) => {
   return (
     <>
       <div className="df aic jcc" style={{ width, height }}>
-        <div className="lds-ellipsis">
+        <div className="lds-ring">
           <div></div>
           <div></div>
           <div></div>
@@ -12,59 +15,39 @@ const Spinner = ({ size = "1rem", width = "auto", height = "auto" }) => {
         </div>
       </div>
       <style jsx>{`
-        .lds-ellipsis {
+        .lds-ring {
           display: inline-block;
           position: relative;
           width: ${size};
           height: ${size};
         }
-        .lds-ellipsis div {
+        .lds-ring div {
+          box-sizing: border-box;
+          display: block;
           position: absolute;
-          top: 33px;
-          width: 13px;
-          height: 13px;
+          width: ${size};
+          height: ${size};
+          margin: 0;
+          border: 2px solid var(${color});
           border-radius: 50%;
-          background: var(--blue);
-          animation-timing-function: cubic-bezier(0, 1, 1, 0);
+          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          border-color: var(${color}) transparent transparent transparent;
         }
-        .lds-ellipsis div:nth-child(1) {
-          left: 8px;
-          animation: lds-ellipsis1 0.6s infinite;
+        .lds-ring div:nth-child(1) {
+          animation-delay: -0.45s;
         }
-        .lds-ellipsis div:nth-child(2) {
-          left: 8px;
-          animation: lds-ellipsis2 0.6s infinite;
+        .lds-ring div:nth-child(2) {
+          animation-delay: -0.3s;
         }
-        .lds-ellipsis div:nth-child(3) {
-          left: 32px;
-          animation: lds-ellipsis2 0.6s infinite;
+        .lds-ring div:nth-child(3) {
+          animation-delay: -0.15s;
         }
-        .lds-ellipsis div:nth-child(4) {
-          left: 56px;
-          animation: lds-ellipsis3 0.6s infinite;
-        }
-        @keyframes lds-ellipsis1 {
+        @keyframes lds-ring {
           0% {
-            transform: scale(0);
+            transform: rotate(0deg);
           }
           100% {
-            transform: scale(1);
-          }
-        }
-        @keyframes lds-ellipsis3 {
-          0% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(0);
-          }
-        }
-        @keyframes lds-ellipsis2 {
-          0% {
-            transform: translate(0, 0);
-          }
-          100% {
-            transform: translate(24px, 0);
+            transform: rotate(360deg);
           }
         }
       `}</style>

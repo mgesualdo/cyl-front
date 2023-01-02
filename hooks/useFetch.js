@@ -3,20 +3,13 @@ import { useState } from "react"
 import Swal from "sweetalert2"
 import { customFetch } from "../helpers/customFetch"
 import { useStore } from "./useForms"
+import { useQueryClient } from "react-query"
+
+const QUERY_KEYS = {
+  person: "personas",
+}
 
 const VALIDATIONS = {
-  login: ({ email, code }) => {
-    if (!email || !code) {
-      return {
-        ok: false,
-        title: "UPS",
-        html: "Debes inidicar un email y código de ingreso",
-        icon: "info",
-        confirmButtonText: "Entendido",
-      }
-    }
-    return { ok: true }
-  },
   getCode: ({ email }) => {
     if (!email) {
       return {
@@ -29,13 +22,29 @@ const VALIDATIONS = {
     }
     return { ok: true }
   },
+  login: ({ email, code }) => {
+    if (!email || !code) {
+      return {
+        ok: false,
+        title: "UPS",
+        html: "Debes inidicar un email y código de ingreso",
+        icon: "info",
+        confirmButtonText: "Entendido",
+      }
+    }
+    return { ok: true }
+  },
+  person: (person) => {
+    return { ok: true }
+  },
 }
 
 const useFetch = ({ form }) => {
   const [fetching, setFetching] = useState(false)
   const router = useRouter()
-  console.log("HOLI")
-  const post = async ({ path, validation }) => {
+  const queryClient = useQueryClient()
+
+  const fetcher = async ({ path, validation = form, method = "POST" }) => {
     const state = useStore.getState()[form]
 
     const result = VALIDATIONS[validation](state)
@@ -46,11 +55,40 @@ const useFetch = ({ form }) => {
     }
     try {
       setFetching(true)
-      const { redirect, swalConfig } = await customFetch(path, "POST", state)
+      const { redirect, swalConfig, data } = await customFetch(
+        path,
+        method,
+        state
+      )
       setFetching(false)
 
       if (swalConfig) await Swal.fire(swalConfig)
       if (redirect) router.push(redirect)
+      if (data && method === "POST") {
+        queryClient.setQueryData(QUERY_KEYS[form], (oldData) => [
+          ...oldData,
+          data,
+        ])
+      }
+      if (method === "PUT") {
+        queryClient.setQueryData(QUERY_KEYS[form], (oldData) => {
+          let editedData = oldData.map((od) => {
+            if (od._id === state._id) {
+              return { ...od, ...state }
+            } else {
+              return od
+            }
+          })
+          return editedData
+        })
+      }
+      console.log({ method, state })
+      if (data && method === "DELETE") {
+        queryClient.setQueryData(QUERY_KEYS[form], (oldData) => {
+          let filteredData = oldData.filter((od) => od._id !== data)
+          return filteredData
+        })
+      }
     } catch (error) {
       console.log({ error })
       setFetching(false)
@@ -74,7 +112,7 @@ const useFetch = ({ form }) => {
     }
   }
 
-  return { post, fetching }
+  return { fetcher, fetching }
 }
 
 export default useFetch

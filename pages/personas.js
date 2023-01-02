@@ -1,5 +1,4 @@
 import Head from "next/head"
-import { useState } from "react"
 import PersonsList from "../components/entities/persons/PersonsList"
 
 const PersonasPage = ({}) => {

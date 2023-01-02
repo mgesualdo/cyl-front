@@ -1,6 +1,7 @@
-import useForms from "../../../hooks/useForms"
+import useForms, { useStore } from "../../../hooks/useForms"
 
 const InputText = ({ type = "text", name, placeholder, form }) => {
+  const value = useStore((state) => state[form][name])
   const { setFields } = useForms({ form })
 
   const handleChange = ({ target }) => {
@@ -12,6 +13,7 @@ const InputText = ({ type = "text", name, placeholder, form }) => {
       <input
         type={type}
         name={name}
+        defaultValue={value || ""}
         className="p5 mb10 onone bnone bs br3 bcgreylight w100p"
         placeholder={placeholder}
         onChange={handleChange}

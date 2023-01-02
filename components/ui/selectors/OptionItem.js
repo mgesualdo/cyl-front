@@ -4,6 +4,7 @@ import ContainerItem from "../layout/ContainerItem"
 const OptionItem = ({ item, onClick, form, field, width, mb }) => {
   const value = useStore((state) => state[form][field])
   const { text, icon } = item
+
   return (
     <ContainerItem
       jc="center"

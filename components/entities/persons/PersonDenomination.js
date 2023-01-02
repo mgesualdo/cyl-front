@@ -3,7 +3,7 @@ import InputText from "../../ui/inputs/InputText"
 
 const PersonDenomination = () => {
   const isCompany = useStore((state) => state.person.type === "Empresa")
-  console.log({ isCompany })
+
   return (
     <>
       {!isCompany && (
@@ -19,6 +19,7 @@ const PersonDenomination = () => {
           name="denomination"
         />
       )}
+      <InputText form="person" placeholder="Correo electrónico" name="email" />
     </>
   )
 }

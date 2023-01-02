@@ -10,12 +10,14 @@ const getPersonDenom = (person) => {
       denom = "Persona sin identificar"
     }
 
-    if (!email && (firstname || lastname)) {
+    if (firstname || lastname) {
       denom = `${firstname ? " " + firstname : ""}${
         lastname ? " " + lastname : ""
       }`
     }
-    denom = email
+    if (email && !firstname && !lastname) {
+      denom = email
+    }
   }
 
   return denom
