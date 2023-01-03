@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { useState } from "react"
 import Swal from "sweetalert2"
 import { customFetch } from "../helpers/customFetch"
-import { useStore } from "./useForms"
+import useForms, { useStore } from "./useForms"
 import { useQueryClient } from "react-query"
 
 const QUERY_KEYS = {
@@ -41,6 +41,7 @@ const VALIDATIONS = {
 
 const useFetch = ({ form }) => {
   const [fetching, setFetching] = useState(false)
+  const { cleanForm } = useForms({ form })
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -53,18 +54,28 @@ const useFetch = ({ form }) => {
       Swal.fire(result)
       return
     }
+
+    let body = new FormData()
+    if (state.file) {
+      body.append("file", state.file)
+      delete state.fileContent
+      delete state.file
+    }
+
+    body.append(form, JSON.stringify(state))
+
     try {
       setFetching(true)
       const { redirect, swalConfig, data } = await customFetch(
         path,
         method,
-        state
+        body
       )
       setFetching(false)
 
       if (swalConfig) await Swal.fire(swalConfig)
       if (redirect) router.push(redirect)
-      if (data && method === "POST") {
+      if (data && form !== "auth" && method === "POST") {
         queryClient.setQueryData(QUERY_KEYS[form], (oldData) => [
           ...oldData,
           data,
@@ -82,15 +93,14 @@ const useFetch = ({ form }) => {
           return editedData
         })
       }
-      console.log({ method, state })
       if (data && method === "DELETE") {
         queryClient.setQueryData(QUERY_KEYS[form], (oldData) => {
           let filteredData = oldData.filter((od) => od._id !== data)
           return filteredData
         })
       }
+      cleanForm()
     } catch (error) {
-      console.log({ error })
       setFetching(false)
       const { status, swalConfig } = error.cause
       if (status === 401 && form === "auth") {

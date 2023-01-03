@@ -15,7 +15,6 @@ const Logo = ({ setShowMenu, showMenu }) => {
           top: 0.5rem;
           left: 0.5rem;
           overflow: hidden;
-          background-color: red;
           z-index: 1;
         }
       `}</style>

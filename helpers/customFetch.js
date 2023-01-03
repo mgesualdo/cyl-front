@@ -19,7 +19,7 @@ export const customFetch = async (
   } catch ({ response }) {
     const { data, status } = response
     const isText = typeof data === "string"
-    console.log({ response })
+    console.log({ status })
     throw new Error(status, {
       cause: { status, swalConfig: isText ? null : data?.swalConfig },
     })

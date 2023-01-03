@@ -1,30 +1,21 @@
 import getPersonDenom from "../../../helpers/getPersonDenom"
-import useFetch from "../../../hooks/useFetch"
-import useForms from "../../../hooks/useForms"
+import DeleteItem from "../../ui/buttons/DeleteItem"
+import EditItem from "../../ui/buttons/EditItem"
+import CustomImage from "../../ui/images/CustomImage"
 import ContainerItem from "../../ui/layout/ContainerItem"
 
 const PersonItem = ({ person }) => {
-  const { setFields, showModal } = useForms({ form: "person" })
-  const { fetcher } = useFetch({ form: "person" })
   const denom = getPersonDenom(person)
 
   return (
     <ContainerItem mb="0.5rem" width="100%" jc="space-between">
-      <p>{denom}</p>
       <div className="df aic">
-        <i
-          className="fas fa-edit cblack mr10"
-          onClick={() => {
-            setFields({ data: { ...person, editing: true } })
-            showModal()
-          }}
-        />
-        <i
-          className="fas fa-trash cred"
-          onClick={() =>
-            fetcher({ path: `/persons/${person._id}`, method: "DELETE" })
-          }
-        />
+        <CustomImage src={person.imageUrl} />
+        <p className="ml5">{denom}</p>
+      </div>
+      <div className="df aic">
+        <EditItem form="person" item={person} />
+        <DeleteItem form="person" itemID={person._id} />
       </div>
     </ContainerItem>
   )

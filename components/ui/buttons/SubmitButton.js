@@ -1,43 +1,61 @@
 import useFetch from "../../../hooks/useFetch"
-import useForms from "../../../hooks/useForms"
+import useForms, { useStore } from "../../../hooks/useForms"
 import Spinner from "../spinners/Spinner"
 const SubmitButton = ({
   form,
   path,
+  basePath,
+  param,
+  text,
+  validation,
   editing,
-  type = "button",
+  type = "submit",
   border = "none",
   width = "100%",
+  widthOnMob = width,
+  bc = "green",
   mt = "0.5rem",
   mtm = mt,
   mr = "0",
   mrm = mr,
   mb = "0.5rem",
   mbm = mb,
-  widthOnMob = "100%",
   maxWidth,
 }) => {
-  const { showModal } = useForms({})
+  const { hideModal } = useForms({ form })
   const { fetcher, fetching } = useFetch({ form })
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
+    type === "submit" && e.preventDefault()
     const method = editing ? "PUT" : "POST"
-    await fetcher({ path, method })
-    showModal("")
+    const paramValue = useStore.getState(form)[param]
+    let finalPath = path ? path : `${basePath}/${paramValue}`
+    await fetcher({ path: finalPath, method, validation })
+    hideModal("")
   }
+
+  const handleSubmit = async (e) => {
+    console.log({ e })
+  }
+
+  const finalText = text || (editing ? "Editar" : "Crear")
 
   return (
     <>
-      <button type={type} onClick={handleClick}>
+      <button
+        type={type}
+        onClick={handleClick}
+        onSubmit={handleSubmit}
+        className="ooh"
+      >
         {fetching && <Spinner color="--white" />}
-        {!editing && !fetching && "Crear"}
-        {editing && !fetching && "Editar"}
+        {!fetching && finalText}
       </button>
       <style jsx>{`
         button {
-          background-color: var(--price);
+          background-color: var(--${bc});
           font-size: 1rem;
-          padding: 0.5rem 2rem;
+          padding: 0.5rem 1rem;
           border: ${border};
           color: white;
           outline: none;
@@ -48,10 +66,6 @@ const SubmitButton = ({
           margin-top: ${mt};
           margin-bottom: ${mb};
           border-radius: var(--borderRadius);
-        }
-
-        button:hover {
-          background-color: var(--priceDark);
         }
 
         @media screen and (max-width: 600px) {

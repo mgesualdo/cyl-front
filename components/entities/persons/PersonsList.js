@@ -1,14 +1,14 @@
 import { useQuery, useQueryClient } from "react-query"
 import { customFetch } from "../../../helpers/customFetch"
 import useForms from "../../../hooks/useForms"
-import FormModal from "../../ui/modals/FormModal"
+import OpenNewForm from "../../ui/buttons/PlusButton"
+import Modal from "../../ui/modals/Modal"
 import Spinner from "../../ui/spinners/Spinner"
 import Subtitle from "../../ui/texts/Subtitle"
 import PersonItem from "./Person"
 import PersonForm from "./PersonForm"
 
 const PersonsList = () => {
-  const { showModal, cleanForm } = useForms({ form: "person" })
   const { data, isLoading } = useQuery(
     "personas",
     () => customFetch(`/persons`),
@@ -18,9 +18,7 @@ const PersonsList = () => {
       },
     }
   )
-  const queryClient = useQueryClient()
 
-  const handleClick = () => {}
   if (isLoading) return <Spinner />
 
   return (
@@ -31,18 +29,10 @@ const PersonsList = () => {
           <PersonItem person={p} key={p._id} />
         ))}
       </div>
-      <div
-        className="posa bcprice r5 t5 br5 cwhite"
-        onClick={() => {
-          cleanForm()
-          showModal("person")
-        }}
-      >
-        <i className="fas fa-plus p5" />
-      </div>
-      <FormModal form="person" width="20rem">
+      <OpenNewForm form="person" />
+      <Modal form="person" width="20rem">
         <PersonForm />
-      </FormModal>
+      </Modal>
     </>
   )
 }

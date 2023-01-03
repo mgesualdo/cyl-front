@@ -2,7 +2,6 @@ import Head from "next/head"
 import Spinner from "../components/ui/spinners/Spinner"
 
 export default function Home({ user }) {
-  console.log({ user })
   if (!user?.email) return <Spinner width="100%" height="100%" />
 
   return (

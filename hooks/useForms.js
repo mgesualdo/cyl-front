@@ -3,6 +3,7 @@ import { devtools } from "zustand/middleware"
 import { toggleItem } from "../helpers/arrays"
 
 const INITIAL_STATES = {
+  auth: { email: "", code: "" },
   person: {
     type: "",
     areas: [],
@@ -12,7 +13,7 @@ const INITIAL_STATES = {
 export const useStore = create(
   devtools(
     (set) => ({
-      auth: { email: "", code: "" },
+      auth: INITIAL_STATES["auth"],
       modal: { show: "" },
       person: INITIAL_STATES["person"],
       user: {},
@@ -66,13 +67,14 @@ const useForms = ({ form }) => {
   const setFields = ({ data }) => set({ data, form })
   const showModal = (modal) =>
     set({ data: { show: form || modal }, form: "modal" })
+  const hideModal = () => set({ data: { show: "" }, form: "modal" })
 
   const setArrayField = ({ item, field, toggleField }) =>
     setArray({ item, field, toggleField, form })
 
   const cleanForm = () => clean({ form })
 
-  return { setFields, setArrayField, showModal, cleanForm }
+  return { setFields, setArrayField, showModal, hideModal, cleanForm }
 }
 
 export default useForms

@@ -8,7 +8,7 @@ const useAuth = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (router.asPath.includes("login") && !!user.email) {
+    if (router.asPath.includes("login") && !!user?.email) {
       router.push("/")
       return
     }
@@ -21,7 +21,6 @@ const useAuth = () => {
           return
         } else {
           const res = await rawRes.json()
-          console.log({ res })
           setFields({ data: res.data })
         }
       })

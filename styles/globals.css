@@ -46,8 +46,8 @@
   --redDark: hsl(0, 89%, calc(46% * 0.9));
   --greenLight: hsl(123, 100%, 92%);
   --greenTransparent: rgba(0, 255, 0, 0.15);
-  --price: #28a969;
-  --priceDark: #199557;
+  --green: #28a969;
+  --greenDark: #199557;
   --availableGreenBackground: hsl(151, 100%, 89%);
   --notAvailableRedBackground: hsl(0, 100%, 89%);
   --notAvailableRedColor: hsl(0, 30%, 65%);
@@ -69,6 +69,7 @@ body {
   background-color: var(--htmlBackgroundColor)
 }
 
+
 html,
 body,
 h1,
@@ -86,6 +87,7 @@ button {
   color: var(--black);
   line-height: 1.4em;
 }
+
 
 .bs { box-shadow: var(--boxShadow)}
 .fwb { font-weight: bold }
@@ -390,7 +392,7 @@ button {
 .cblack { color: var(--black) }
 .cblacklight { color: var(--blackLight) }
 .cgreydarkest { color: var(--greyDarkest) }
-.cprice { color: var(--price) }
+.cgreen { color: var(--green) }
 .cred { color: var(--red) }
 .credlight { color: var(--redLight) }
 .cnotavailablered { color: var(--notAvailableRedColor) }
@@ -1520,11 +1522,12 @@ button {
 .bcprim:hover {
   background-color: var(--primColorDark)
 }
-.bcprice {
-  background-color: var(--price)
+.bcgreen {
+  background-color: var(--green)
 }
-.bcprice:hover {
-  background-color: var(--priceDark)
+
+.ooh:hover {
+  opacity: 0.8;
 }
 
 .bcprimlightest {
@@ -1575,8 +1578,8 @@ button {
   color: var(--greyDarkest)
 }
 
-.cprice {
-  color: var(--price)
+.cgreen {
+  color: var(--green)
 }
 
 .cred {

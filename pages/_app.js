@@ -14,8 +14,6 @@ export default function App({ Component, pageProps }) {
   const { user } = useAuth()
   const router = useRouter()
 
-  console.log({ user })
-
   const isLoginPage = router.asPath.includes("login")
 
   return (
@@ -23,11 +21,20 @@ export default function App({ Component, pageProps }) {
       <Head>
         <link rel="icon" href="/logo.png" />
       </Head>
-      <div>
+      <main
+        style={{
+          position: "relative",
+          height: "100vh",
+          margin: "0.5rem auto 0 auto",
+          width: "95%",
+          maxWidth: "40rem",
+          padding: "5rem 1rem",
+        }}
+      >
         {!isLoginPage && <Logo setShowMenu={setShowMenu} showMenu={showMenu} />}
         {showMenu && !isLoginPage && <Menu setShowMenu={setShowMenu} />}
         <Component {...pageProps} user={user} />
-      </div>
+      </main>
     </QueryClientProvider>
   )
 }
