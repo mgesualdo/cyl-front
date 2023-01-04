@@ -1,10 +1,10 @@
-import Image from "next/image"
+import Image from 'next/image'
 
 const Logo = ({ setShowMenu, showMenu }) => {
   return (
     <>
-      <div className="logo" onClick={() => setShowMenu(!showMenu)}>
-        <Image src="/logo.png" fill="responsive" alt="Logo de la empresa" />
+      <div className='logo' onClick={() => setShowMenu(!showMenu)}>
+        <Image src='/logo.png' fill='responsive' alt='Logo de la empresa' />
       </div>
       <style jsx>{`
         .logo {
@@ -15,6 +15,7 @@ const Logo = ({ setShowMenu, showMenu }) => {
           top: 0.5rem;
           left: 0.5rem;
           overflow: hidden;
+          cursor: pointer;
           z-index: 1;
         }
       `}</style>

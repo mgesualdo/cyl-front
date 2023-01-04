@@ -1,11 +1,12 @@
-import create from "zustand"
-import { devtools } from "zustand/middleware"
-import { toggleItem } from "../helpers/arrays"
+import create from 'zustand'
+import { devtools } from 'zustand/middleware'
+import { toggleItem } from '../helpers/arrays'
 
 const INITIAL_STATES = {
-  auth: { email: "", code: "" },
+  auth: { email: '', code: '' },
+  business: { isClient: true, type: 'Empresa' },
   person: {
-    type: "",
+    type: '',
     areas: [],
   },
 }
@@ -13,9 +14,9 @@ const INITIAL_STATES = {
 export const useStore = create(
   devtools(
     (set) => ({
-      auth: INITIAL_STATES["auth"],
-      modal: { show: "" },
-      person: INITIAL_STATES["person"],
+      auth: INITIAL_STATES['auth'],
+      modal: { show: '' },
+      person: INITIAL_STATES['person'],
       user: {},
       set: ({ data, form }) => {
         Object.keys(data).forEach((fieldName) => {
@@ -55,7 +56,7 @@ export const useStore = create(
         )
       },
     }),
-    { enabled: process.env.NEXT_PUBLIC_CUSTOM_ENV === "dev" }
+    { enabled: process.env.NEXT_PUBLIC_CUSTOM_ENV === 'dev' }
   )
 )
 
@@ -66,8 +67,8 @@ const useForms = ({ form }) => {
 
   const setFields = ({ data }) => set({ data, form })
   const showModal = (modal) =>
-    set({ data: { show: form || modal }, form: "modal" })
-  const hideModal = () => set({ data: { show: "" }, form: "modal" })
+    set({ data: { show: form || modal }, form: 'modal' })
+  const hideModal = () => set({ data: { show: '' }, form: 'modal' })
 
   const setArrayField = ({ item, field, toggleField }) =>
     setArray({ item, field, toggleField, form })

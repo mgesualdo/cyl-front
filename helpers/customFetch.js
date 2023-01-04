@@ -1,11 +1,11 @@
-import axios from "axios"
-import { BASE_BACK_URL } from "../utils/constants.js"
+import axios from 'axios'
+import { BASE_BACK_URL } from '../utils/constants.js'
 
 export const customFetch = async (
   path,
-  method = "GET",
+  method = 'GET',
   body = {},
-  contentType = "application/json"
+  contentType = 'application/json'
 ) => {
   try {
     const { data } = await axios({
@@ -15,11 +15,11 @@ export const customFetch = async (
       data: body,
     })
 
-    return method === "GET" ? data.data : data
+    return method === 'GET' ? data.data : data
   } catch ({ response }) {
     const { data, status } = response
-    const isText = typeof data === "string"
-    console.log({ status })
+    const isText = typeof data === 'string'
+    console.log({ data })
     throw new Error(status, {
       cause: { status, swalConfig: isText ? null : data?.swalConfig },
     })

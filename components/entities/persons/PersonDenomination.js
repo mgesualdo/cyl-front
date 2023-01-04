@@ -1,25 +1,21 @@
-import { useStore } from "../../../hooks/useForms"
-import InputText from "../../ui/inputs/InputText"
+import { useStore } from '../../../hooks/useForms'
+import InputText from '../../ui/inputs/InputText'
 
-const PersonDenomination = () => {
-  const isCompany = useStore((state) => state.person.type === "Empresa")
+const PersonDenomination = ({ form = 'person' }) => {
+  const isCompany = useStore((state) => state[form].type === 'Empresa')
 
   return (
     <>
       {!isCompany && (
         <>
-          <InputText form="person" placeholder="Nombre/s" name="firstname" />
-          <InputText form="person" placeholder="Apellido/s" name="lastname" />
+          <InputText form={form} placeholder='Nombre/s' name='firstname' />
+          <InputText form={form} placeholder='Apellido/s' name='lastname' />
         </>
       )}
       {isCompany && (
-        <InputText
-          form="person"
-          placeholder="Denominación"
-          name="denomination"
-        />
+        <InputText form={form} placeholder='Denominación' name='denomination' />
       )}
-      <InputText form="person" placeholder="Correo electrónico" name="email" />
+      <InputText form={form} placeholder='Correo electrónico' name='email' />
     </>
   )
 }

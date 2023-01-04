@@ -1,16 +1,16 @@
-import { useQuery, useQueryClient } from "react-query"
-import { customFetch } from "../../../helpers/customFetch"
-import useForms from "../../../hooks/useForms"
-import OpenNewForm from "../../ui/buttons/PlusButton"
-import Modal from "../../ui/modals/Modal"
-import Spinner from "../../ui/spinners/Spinner"
-import Subtitle from "../../ui/texts/Subtitle"
-import PersonItem from "./Person"
-import PersonForm from "./PersonForm"
+import { useQuery, useQueryClient } from 'react-query'
+import { customFetch } from '../../../helpers/customFetch'
+import useForms from '../../../hooks/useForms'
+import OpenNewForm from '../../ui/buttons/PlusButton'
+import Modal from '../../ui/modals/Modal'
+import Spinner from '../../ui/spinners/Spinner'
+import Subtitle from '../../ui/texts/Subtitle'
+import PersonItem from './Person'
+import PersonForm from './PersonForm'
 
 const PersonsList = () => {
   const { data, isLoading } = useQuery(
-    "personas",
+    'personas',
     () => customFetch(`/persons`),
     {
       onError: (e) => {
@@ -23,14 +23,14 @@ const PersonsList = () => {
 
   return (
     <>
-      <div className="w100p">
-        <Subtitle text="Listado de personas" />
+      <div className='w100p'>
+        <Subtitle text='Listado de personas' />
         {data?.map((p) => (
           <PersonItem person={p} key={p._id} />
         ))}
       </div>
-      <OpenNewForm form="person" />
-      <Modal form="person" width="20rem">
+      <OpenNewForm form='person' />
+      <Modal form='person' width='20rem'>
         <PersonForm />
       </Modal>
     </>
