@@ -11,7 +11,7 @@ const PersonItem = ({ person, form = 'person' }) => {
     <ContainerItem mb='0.5rem' width='100%' jc='space-between'>
       <div className='df aic'>
         <CustomImage src={person.imageUrl} />
-        <p className='ml5'>{denom}</p>
+        <p className='ml10'>{denom}</p>
       </div>
       <div className='df aic'>
         <EditItem form={form} item={person} />

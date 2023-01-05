@@ -1,4 +1,5 @@
-import Head from "next/head"
+import Head from 'next/head'
+import ProductList from '../components/entities/products/ProductsList'
 
 const ProductosPage = () => {
   return (
@@ -6,11 +7,7 @@ const ProductosPage = () => {
       <Head>
         <title>Productos</title>
       </Head>
-      <main style={{ height: "100vh" }}>
-        <div className="df aic jcc w100p h100p">
-          <h1>Productos</h1>
-        </div>
-      </main>
+      <ProductList />
     </>
   )
 }

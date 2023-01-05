@@ -1,20 +1,25 @@
-import Image from "next/image"
+import Image from 'next/image'
 
 const CustomImage = ({
   src,
-  width = "2.5rem",
+  width = '2.5rem',
   height = width,
-  alt = "Imagen",
+  alt = 'Imagen',
+  avoidCache,
 }) => {
-  const finalSrc = src ? src : "/no-image.png"
+  let finalSrc = src ? src : '/no-image.png'
+
+  if (avoidCache) {
+    finalSrc = `${finalSrc}?updated=${avoidCache}`
+  }
 
   return (
     <>
-      <div className="image-container">
+      <div className='image-container'>
         <Image
           src={finalSrc}
-          style={{ objectFit: "contain" }}
-          fill="responsive"
+          style={{ objectFit: 'contain' }}
+          fill='responsive'
           alt={alt}
         />
       </div>

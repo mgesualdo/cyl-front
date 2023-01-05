@@ -5,7 +5,7 @@ import OpenNewForm from '../../ui/buttons/PlusButton'
 import Modal from '../../ui/modals/Modal'
 import Spinner from '../../ui/spinners/Spinner'
 import Subtitle from '../../ui/texts/Subtitle'
-import PersonItem from './Person'
+import PersonItem from './PersonItem'
 import PersonForm from './PersonForm'
 
 const PersonsList = () => {

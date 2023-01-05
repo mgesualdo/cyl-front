@@ -1,12 +1,7 @@
 import axios from 'axios'
 import { BASE_BACK_URL } from '../utils/constants.js'
 
-export const customFetch = async (
-  path,
-  method = 'GET',
-  body = {},
-  contentType = 'application/json'
-) => {
+export const customFetch = async (path, method = 'GET', body = {}) => {
   try {
     const { data } = await axios({
       url: `${BASE_BACK_URL}${path}`,

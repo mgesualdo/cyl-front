@@ -9,6 +9,7 @@ const INITIAL_STATES = {
     type: '',
     areas: [],
   },
+  product: { type: '' },
 }
 
 export const useStore = create(
@@ -17,6 +18,7 @@ export const useStore = create(
       auth: INITIAL_STATES['auth'],
       modal: { show: '' },
       person: INITIAL_STATES['person'],
+      product: INITIAL_STATES['product'],
       user: {},
       set: ({ data, form }) => {
         Object.keys(data).forEach((fieldName) => {

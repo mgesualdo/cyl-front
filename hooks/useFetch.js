@@ -6,11 +6,12 @@ import useForms, { useStore } from './useForms'
 import { useQueryClient } from 'react-query'
 
 const QUERY_KEYS = {
-  person: 'personas',
   business: 'comercios',
+  person: 'personas',
+  product: 'productos',
 }
 
-const USES_FORM_DATA = ['person', 'business']
+const USES_FORM_DATA = ['business', 'person', 'product']
 
 const VALIDATIONS = {
   getCode: ({ email }) => {
@@ -41,6 +42,9 @@ const VALIDATIONS = {
     return { ok: true }
   },
   person: (person) => {
+    return { ok: true }
+  },
+  product: (product) => {
     return { ok: true }
   },
 }
@@ -82,6 +86,7 @@ const useFetch = ({ form }) => {
 
       if (swalConfig) await Swal.fire(swalConfig)
       if (redirect) router.push(redirect)
+
       if (data && form !== 'auth' && method === 'POST') {
         queryClient.setQueryData(QUERY_KEYS[form], (oldData) => [
           ...oldData,
@@ -90,11 +95,11 @@ const useFetch = ({ form }) => {
       }
       if (method === 'PUT') {
         queryClient.setQueryData(QUERY_KEYS[form], (oldData) => {
-          let editedData = oldData.map((od) => {
-            if (od._id === state._id) {
-              return { ...od, ...state }
+          let editedData = oldData.map((odi) => {
+            if (odi._id === state._id) {
+              return { ...odi, ...state }
             } else {
-              return od
+              return odi
             }
           })
           return editedData
@@ -102,7 +107,7 @@ const useFetch = ({ form }) => {
       }
       if (data && method === 'DELETE') {
         queryClient.setQueryData(QUERY_KEYS[form], (oldData) => {
-          let filteredData = oldData.filter((od) => od._id !== data)
+          let filteredData = oldData.filter((odi) => odi._id !== data)
           return filteredData
         })
       }

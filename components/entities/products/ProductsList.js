@@ -4,12 +4,12 @@ import OpenNewForm from '../../ui/buttons/PlusButton'
 import Modal from '../../ui/modals/Modal'
 import Spinner from '../../ui/spinners/Spinner'
 import Subtitle from '../../ui/texts/Subtitle'
-import PersonItem from '../persons/PersonItem'
-import BusinessForm from './BusinessForm'
+import ProductItem from '../products/ProductItem'
+import ProductForm from './ProductForm'
 
-const BusinessList = () => {
-  const { data, isLoading } = useQuery('comercios', () =>
-    customFetch(`/persons/business`)
+const ProductList = () => {
+  const { data, isLoading } = useQuery('productos', () =>
+    customFetch(`/products`)
   )
 
   if (isLoading) return <Spinner />
@@ -17,17 +17,17 @@ const BusinessList = () => {
   return (
     <>
       <div className='w100p'>
-        <Subtitle text='Listado de comercios' />
+        <Subtitle text='Listado de productos' />
         {data?.map((p) => (
-          <PersonItem person={p} key={p._id} form='business' />
+          <ProductItem product={p} key={p._id} form='product' />
         ))}
       </div>
-      <OpenNewForm form='business' />
-      <Modal form='business' width='20rem'>
-        <BusinessForm />
+      <OpenNewForm form='product' />
+      <Modal form='product' width='20rem'>
+        <ProductForm />
       </Modal>
     </>
   )
 }
 
-export default BusinessList
+export default ProductList
