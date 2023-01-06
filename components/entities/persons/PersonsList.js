@@ -29,7 +29,7 @@ const PersonsList = () => {
           <PersonItem person={p} key={p._id} />
         ))}
       </div>
-      <OpenNewForm form='person' />
+      {/* <OpenNewForm form='person' /> */}
       <Modal form='person' width='20rem'>
         <PersonForm />
       </Modal>

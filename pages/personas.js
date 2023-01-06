@@ -1,5 +1,6 @@
-import Head from "next/head"
-import PersonsList from "../components/entities/persons/PersonsList"
+import Head from 'next/head'
+import PersonsList from '../components/entities/persons/PersonsList'
+import PageOptionsButton from '../components/ui/buttons/PageOptionsButton'
 
 const PersonasPage = ({}) => {
   return (
@@ -7,7 +8,7 @@ const PersonasPage = ({}) => {
       <Head>
         <title>Personas</title>
       </Head>
-
+      <PageOptionsButton form='person' />
       <PersonsList />
     </>
   )
